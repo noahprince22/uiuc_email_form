@@ -1,0 +1,29 @@
+<div ng-controller="MainController">
+  <div ng-controller="EmailFormController">
+    <form-default>
+      <form-name></form-name>
+      <form-email></form-email>
+      <form-lists></form-lists>
+    </form-default>
+  </div>
+  <hr>
+  <table class="table">
+    <thead>
+      <tr>
+        <td> # </td>
+        <td> Name </td>
+        <td> Email </td>
+        <td> Lists </td>
+      <tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="member in members | reverse">
+        <td> {{$index}} </td>
+        <td> {{member.name}} </td>
+        <td> {{member.email}} </td>
+        <td>
+          {{member.lists.toString()}}
+        </td>
+      </tr>
+  </table>
+</div>

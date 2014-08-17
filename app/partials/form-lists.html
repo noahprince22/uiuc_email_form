@@ -1,0 +1,17 @@
+<div class="form-group">
+  <label class="control-label col-xs-2">Teams</label>
+  <div class="col-xs-10">
+    <div ng-repeat="list in form.listsAvail">
+      <div class="checkbox">
+        <label>
+          <input
+             type="checkbox"
+             value="{{list.name}}"
+             name="{{form.name}}selectedLists[]"
+             ng-model="list.selected"
+             > {{list.name}}
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
