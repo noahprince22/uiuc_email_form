@@ -30,6 +30,14 @@ angular.module('uiucEmailForm.controllers', [])
   }])
   .controller('MainController',['$scope', '$cookieStore','$firebase', function MainController($scope,$cookieStore,$firebase){
     $scope.members = [];
+    $scope.listsAvail = [
+        { name: 'Business',   selected: false },
+        { name: 'Electrical', selected: false },
+        { name: 'Industrial', selected: false },
+        { name: 'Mechanical', selected: false }
+    ];
+
+    // Setup firebase
     var credentials = $cookieStore.get('credentials'),
         username = credentials.email.replace("@illinois.edu",""),
         ref = new Firebase("https://blazing-torch-5171.firebaseio.com/"),
@@ -43,15 +51,8 @@ angular.module('uiucEmailForm.controllers', [])
         sync.$set("empty");
       }
     });
-    
-    $scope.listsAvail = [
-        { name: 'Business',   selected: false },
-        { name: 'Electrical', selected: false },
-        { name: 'Industrial', selected: false },
-        { name: 'Mechanical', selected: false }
-    ];
 
-    // create a synchronized array for use in our HTML code
+    // create a synchronized firebase array for use in our HTML code
     $scope.members = sync.$asArray();
   }])
   .controller("TableController",['$scope',function TableController($scope){
