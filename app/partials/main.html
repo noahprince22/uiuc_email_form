@@ -7,23 +7,34 @@
     </form-default>
   </div>
   <hr>
-  <table class="table">
-    <thead>
-      <tr>
-        <td> # </td>
-        <td> Name </td>
-        <td> Email </td>
-        <td> Lists </td>
-      <tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="member in members | reverse">
-        <td> {{$index}} </td>
-        <td> {{member.name}} </td>
-        <td> {{member.email}} </td>
-        <td>
-          {{member.lists.toString()}}
-        </td>
-      </tr>
-  </table>
+  <div ng-controller="TableController">
+    <ul class="nav nav-tabs">
+      <li ng-class="{active: isActive(0)}">
+        <a ng-click="selectList(0)"> All </a>
+      </li>
+      <li ng-repeat="list in listsAvail" ng-class="{active: isActive($index+1)}">
+        <a ng-click="selectList($index+1)"> {{list.name}} </a>
+      </li>
+    </ul>
+    <table class="table">
+      <thead>
+        <tr>
+          <td> # </td>
+          <td> Name </td>
+          <td> Email </td>
+          <td> Lists </td>
+        <tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="member in members | memberContains:getList().name | reverse">
+          <td> {{$index + 1}} </td>
+          <td> {{member.name}} </td>
+          <td> {{member.email}} </td>
+          <td>
+            {{member.lists.toString()}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

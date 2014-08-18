@@ -16,25 +16,60 @@ angular.module('uiucEmailForm.controllers', [])
     // Pass information needed by the form-default
     $scope.form = {
       name: "email-form",
-      listsAvail: [
-        { name: 'Business',   selected: false },
-        { name: 'Electrical', selected: false },
-        { name: 'Industrial', selected: false },
-        { name: 'Mechanical', selected: false }
-      ],
+      listsAvail: $scope.listsAvail,
       submit: function(data){
-        $scope.members.$add(data).then(function(){
+        // Disable the submit button while the form adds the user
+        $scope.form.submitDisabled = true;
+        
+        $scope.members.$add(data).then(function(){   
           $scope.form.resetForm();
+          $scope.form.submitDisabled = false;
         });
       }
     };
   }])
-  .controller('MainController',['$scope', '$firebase', 'filterFilter', function MainController($scope,$firebase,filterFilter){
+  .controller('MainController',['$scope', '$cookieStore','$firebase', function MainController($scope,$cookieStore,$firebase){
     $scope.members = [];
-    var ref = new Firebase("https://blazing-torch-5171.firebaseio.com/members");
-    var sync = $firebase(ref);
+    var credentials = $cookieStore.get('credentials'),
+        username = credentials.email.replace("@illinois.edu",""),
+        ref = new Firebase("https://blazing-torch-5171.firebaseio.com/"),
+        userRef = ref.child(username),
+        sync = $firebase(userRef);
+
+    // If an object doesn't exist for this user in firebase, create one
+    userRef.once('value', function(snapshot) {
+      var exists = (snapshot.val() !== null);
+      if (!exists){
+        sync.$set("empty");
+      }
+    });
+    
+    $scope.listsAvail = [
+        { name: 'Business',   selected: false },
+        { name: 'Electrical', selected: false },
+        { name: 'Industrial', selected: false },
+        { name: 'Mechanical', selected: false }
+    ];
 
     // create a synchronized array for use in our HTML code
     $scope.members = sync.$asArray();
+  }])
+  .controller("TableController",['$scope',function TableController($scope){
+    var active = "0",
+        list = "";
+    
+    $scope.isActive = function(index){
+      return index == active;
+    };
+
+    $scope.getList = function(){
+      return list;
+    };
+
+    $scope.selectList = function(index){
+      active = index;
+
+      list = index === 0 ? "" : $scope.listsAvail[index-1];
+    };
   }]);
 

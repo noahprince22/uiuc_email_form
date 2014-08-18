@@ -48,3 +48,7 @@
 .ng-valid.ng-dirty{
   border-color:green !important;
 }
+
+.nav{
+  cursor: pointer;
+}

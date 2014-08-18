@@ -8,7 +8,26 @@ angular.module('uiucEmailForm.filters', []).
       return String(text).replace(/\%VERSION\%/mg, version);
     };
   }]).filter('reverse', function() {
-  return function(items) {
-    return items.slice().reverse();
-  };
+    return function(items) {
+      return items.slice().reverse();
+    };
+  }).filter('memberContains', function(){
+    return function(members,list){
+      // List = "" means all members
+      if (typeof(list) == "undefined"){
+        return members;
+      }
+
+      // Get all members with lists that contain the selected list
+      var ret = [];
+      angular.forEach(members,function(member){
+        // console.log(member.lists && member.lists.indexOf(list));
+        if (member.lists && member.lists.indexOf(list) != -1){
+          console.log(list +", " + member.lists + ", " + (member.lists && member.lists.indexOf(list)));
+          ret.push(member);
+        }
+      });
+
+      return ret;
+    };
   });
