@@ -9,11 +9,8 @@
   <hr>
   <div ng-controller="TableController">
     <ul class="nav nav-tabs">
-      <li ng-class="{active: isActive(0)}">
-        <a ng-click="selectList(0)"> All </a>
-      </li>
-      <li ng-repeat="list in listsAvail" ng-class="{active: isActive($index+1)}">
-        <a ng-click="selectList($index+1)"> {{list.name}} </a>
+      <li ng-repeat="list in listsOrig" ng-class="{active: isActive($index)}">
+        <a ng-click="selectList($index)"> {{list.name}} </a>
       </li>
     </ul>
     <table class="table">

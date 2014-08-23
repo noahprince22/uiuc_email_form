@@ -16,7 +16,7 @@ angular.module('uiucEmailForm.controllers', [])
     // Pass information needed by the form-default
     $scope.form = {
       name: "email-form",
-      listsAvail: $scope.listsAvail,
+      listsOrig: $scope.listsOrig,
       submit: function(data){
         // Disable the submit button while the form adds the user
         $scope.form.submitDisabled = true;
@@ -30,7 +30,8 @@ angular.module('uiucEmailForm.controllers', [])
   }])
   .controller('MainController',['$scope', '$cookieStore','$firebase', function MainController($scope,$cookieStore,$firebase){
     $scope.members = [];
-    $scope.listsAvail = [
+    $scope.listsOrig = [
+        { name: 'General',   selected: true },
         { name: 'Business',   selected: false },
         { name: 'Electrical', selected: false },
         { name: 'Industrial', selected: false },
@@ -57,7 +58,7 @@ angular.module('uiucEmailForm.controllers', [])
   }])
   .controller("TableController",['$scope',function TableController($scope){
     var active = "0",
-        list = "";
+        list = $scope.listsOrig[0];
     
     $scope.isActive = function(index){
       return index == active;
@@ -70,7 +71,7 @@ angular.module('uiucEmailForm.controllers', [])
     $scope.selectList = function(index){
       active = index;
 
-      list = index === 0 ? "" : $scope.listsAvail[index-1];
+      list = $scope.listsOrig[index];
     };
   }]);
 

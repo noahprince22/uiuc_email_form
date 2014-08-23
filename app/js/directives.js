@@ -69,13 +69,15 @@ angular.module('uiucEmailForm.directives', []).
       scope: true,
       templateUrl:"partials/form-lists.html",
       controller: function($scope){
+        $scope.form.listsAvail = $scope.form.listsOrig;
+
         // Add code to reset list form to parent's resetForm
         var _resetForm = $scope.form.resetForm;
         $scope.form.resetForm = function(){
           _resetForm();
 
           for (var key in $scope.form.listsAvail){
-            $scope.form.listsAvail[key]["selected"] = false;
+            $scope.form.listsAvail[key]["selected"] = $scope.form.listsOrig[key]["selected"];
           }
         }; 
 
