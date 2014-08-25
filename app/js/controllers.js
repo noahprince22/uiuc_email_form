@@ -58,7 +58,7 @@ angular.module('uiucEmailForm.controllers', [])
   }])
   .controller("TableController",['$scope',function TableController($scope){
     var active = "0",
-        list = $scope.listsOrig[0];
+        list = "";
     
     $scope.isActive = function(index){
       return index == active;
@@ -70,8 +70,12 @@ angular.module('uiucEmailForm.controllers', [])
 
     $scope.selectList = function(index){
       active = index;
-
-      list = $scope.listsOrig[index];
+      
+      if(index == 0){
+        list = "";
+      }else{
+        list = $scope.listsOrig[index-1];
+      }
     };
   }]);
 

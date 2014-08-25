@@ -68,8 +68,14 @@ angular.module('uiucEmailForm.directives', []).
       restrict: "E",
       scope: true,
       templateUrl:"partials/form-lists.html",
+      link: function($scope){
+
+      },
       controller: function($scope){
-        $scope.form.listsAvail = $scope.form.listsOrig;
+        $scope.form.listsAvail = [];
+        angular.forEach(function(list){
+          $scope.form.listsOrig;
+        });
 
         // Add code to reset list form to parent's resetForm
         var _resetForm = $scope.form.resetForm;
@@ -77,6 +83,7 @@ angular.module('uiucEmailForm.directives', []).
           _resetForm();
 
           for (var key in $scope.form.listsAvail){
+            console.log($scope.form.listsOrig[key]["selected"]);
             $scope.form.listsAvail[key]["selected"] = $scope.form.listsOrig[key]["selected"];
           }
         }; 
@@ -87,6 +94,7 @@ angular.module('uiucEmailForm.directives', []).
         };
 
         // watch lists for changes and add them to form.data.lists
+console.log($scope.form.listsAvail);
         $scope.$watch('form.listsAvail|filter:{selected:true}', function (nv) {
           $scope.form.data.lists = nv.map(function (list) {
             return list.name;
